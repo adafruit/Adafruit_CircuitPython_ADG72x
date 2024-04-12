@@ -41,7 +41,7 @@ ADG728_DEFAULT_ADDR = 0x4C
 ADG729_DEFAULT_ADDR = 0x44
 
 
-class Adafruit_ADG72x:
+class ADG72x:
     """
     A driver for the ADG728/ADG729 analog multiplexers.
     """
@@ -56,19 +56,65 @@ class Adafruit_ADG72x:
         :type i2c_address: int
         """
         self.i2c_device = i2cdevice.I2CDevice(i2c, i2c_address)
+        self._channels = []
 
-    @property.setter
-    def channels(self, bits: int):
+    @property
+    def channel(self):
         """
-        Selects channels on the ADG72x chip based on the provided bits.
-        Each bit in the 8-bit value 'bits' turns on a single channel;
-        multiple channels can be enabled simultaneously.
+        Gets the list of currently set channels. Returns an empty list if no channels are active.
+        """
+        return self._channels[0] if len(self._channels) == 1 else self._channels
+
+    @channel.setter
+    def channel(self, channel: int):
+        """
+        Selects a single channel on the ADG72x chip. Channel numbering starts at 1.
 
         :param bits: 8-bit value representing the channels to be selected/deselected.
         :type bits: int
         """
+        bits = 1 << (channel - 1)
+        try:
+            with self.i2c_device as i2c:
+                i2c.write(bytes([bits]))
+        except Exception as error:
+            raise IOError("Failed to select channel on the ADG72x") from error
+        self.channels = [channel]
+
+    @property
+    def channels(self):
+        """
+        Gets the list of currently set channels. Returns an empty list if no channels are active.
+        """
+        return self._channels
+
+    @channels.setter
+    def channels(self, channels: typing.List[int]):
+        """
+        Selects multiple channels on the ADG72x chip. Channel numbering starts at 1.
+
+        :param channels: A list of channel numbers to be selected.
+        :type channels: List[int]
+        """
+        bits = 0
+        for channel in channels:
+            bits |= 1 << (channel - 1)
         try:
             with self.i2c_device as i2c:
                 i2c.write(bytes([bits]))
         except Exception as error:
             raise IOError("Failed to select channels on the ADG72x") from error
+        self._channels = channels  # Update the cached list of active channels
+
+    def channels_off(self):
+        """
+        Turns all channels off.
+        """
+        try:
+            with self.i2c_device as i2c:
+                i2c.write(bytes([0]))  # Write a byte with all bits cleared
+        except Exception as error:
+            raise IOError("Failed to turn off channels on the ADG72x") from error
+        self._channels = (
+            []
+        )  # Update the cached list to reflect that no channels are active
