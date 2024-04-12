@@ -15,8 +15,8 @@ Implementation Notes
 
 **Hardware:**
 
-* `Adafruit ADG729 Dual 1-to-4 Analog Matrix Switch <https://www.adafruit.com/product/5932>`_"
-* `Adafruit ADG728 1-to-8 Analog Matrix Switch - Stemma QT <https://www.adafruit.com/product/5899>`_"
+* `Adafruit ADG729 1-to-4 Analog Matrix Switch <https://www.adafruit.com/product/5932>`_"
+* `Adafruit ADG728 1-to-8 Analog Matrix Switch <https://www.adafruit.com/product/5899>`_"
 
 **Software and Dependencies:**
 
@@ -54,13 +54,14 @@ class Adafruit_ADG72x:
         :param i2c_address: The I2C address of the device. Defaults to 0x4C (ADG728).
         :type i2c_address: int
         """
-        self.i2c_device = i2cdevice.I2CDevice(i2c, i2c_addr)
+        self.i2c_device = i2cdevice.I2CDevice(i2c, i2c_address)
     
-    @property
+    @property.setter
     def channels(self, bits: int):
         """
         Selects channels on the ADG72x chip based on the provided bits.
-        Each bit in the 8-bit value 'bits' turns on a single channel; multiple channels can be enabled simultaneously.
+        Each bit in the 8-bit value 'bits' turns on a single channel;
+        multiple channels can be enabled simultaneously.
         
         :param bits: 8-bit value representing the channels to be selected/deselected.
         :type bits: int
@@ -68,5 +69,5 @@ class Adafruit_ADG72x:
         try:
             with self.i2c_device as i2c:
                 i2c.write(bytes([bits]))
-        except Exception as e:
-            raise IOError("Failed to select channels on the ADG72x") from e
+        except Exception as error:
+            raise IOError("Failed to select channels on the ADG72x") from error

@@ -37,11 +37,11 @@ This is easily achieved by downloading
 or individual libraries can be installed using
 `circup <https://github.com/adafruit/circup>`_.
 
-## Adafruit ADG728 1-to-8 Analog Matrix Switch - Stemma QT
+* Adafruit ADG728 1-to-8 Analog Matrix Switch - Stemma QT
 
 `Purchase one from the Adafruit shop <http://www.adafruit.com/products/5899>`_
 
-## Adafruit ADG729 Dual 1-to-4 Analog Matrix Switch
+* Adafruit ADG729 Dual 1-to-4 Analog Matrix Switch
 
 `Purchase one from the Adafruit shop <http://www.adafruit.com/products/5932>`_
 
@@ -97,8 +97,7 @@ Or the following command to update an existing version:
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the
-examples folder and be included in docs/examples.rst.
+.. code-block:: python
 
 Documentation
 =============
