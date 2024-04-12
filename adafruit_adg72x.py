@@ -40,29 +40,30 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_ADG72x.git"
 ADG728_DEFAULT_ADDR = 0x4C
 ADG729_DEFAULT_ADDR = 0x44
 
+
 class Adafruit_ADG72x:
     """
     A driver for the ADG728/ADG729 analog multiplexers.
     """
-    
+
     def __init__(self, i2c: typing.Type[I2C], i2c_address: int = ADG728_DEFAULT_ADDR):
         """
         Initializes the ADG72x.
-        
+
         :param i2c: The I2C bus connected to the device.
         :type i2c: Type[I2C]
         :param i2c_address: The I2C address of the device. Defaults to 0x4C (ADG728).
         :type i2c_address: int
         """
         self.i2c_device = i2cdevice.I2CDevice(i2c, i2c_address)
-    
+
     @property.setter
     def channels(self, bits: int):
         """
         Selects channels on the ADG72x chip based on the provided bits.
         Each bit in the 8-bit value 'bits' turns on a single channel;
         multiple channels can be enabled simultaneously.
-        
+
         :param bits: 8-bit value representing the channels to be selected/deselected.
         :type bits: int
         """
