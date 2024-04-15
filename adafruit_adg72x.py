@@ -68,12 +68,12 @@ class ADG72x:
     @channel.setter
     def channel(self, channel: int):
         """
-        Selects a single channel on the ADG72x chip. Channel numbering starts at 1.
+        Selects a single channel on the ADG72x chip. Channel numbering starts at 0.
 
         :param bits: 8-bit value representing the channels to be selected/deselected.
         :type bits: int
         """
-        bits = 1 << (channel - 1)
+        bits = 1 << channel
         try:
             with self.i2c_device as i2c:
                 i2c.write(bytes([bits]))
@@ -91,14 +91,14 @@ class ADG72x:
     @channels.setter
     def channels(self, channels: typing.List[int]):
         """
-        Selects multiple channels on the ADG72x chip. Channel numbering starts at 1.
+        Selects multiple channels on the ADG72x chip.
 
-        :param channels: A list of channel numbers to be selected.
+        :param channels: A list of channel numbers to be selected. Channel numbering starts at 0.
         :type channels: List[int]
         """
         bits = 0
         for channel in channels:
-            bits |= 1 << (channel - 1)
+            bits |= 1 << channel
         try:
             with self.i2c_device as i2c:
                 i2c.write(bytes([bits]))
