@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2024 Liz Clark for Adafruit Industries
 #
-# SPDX-License-Identifier: Unlicense
+# SPDX-License-Identifier: MIT
 
 import time
 import board

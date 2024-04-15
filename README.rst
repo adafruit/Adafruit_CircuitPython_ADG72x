@@ -93,6 +93,21 @@ Usage Example
 
 .. code-block:: python
 
+    import time
+    import board
+    import adafruit_adg72x
+
+    i2c = board.I2C()
+    switch = adafruit_adg72x.ADG72x(i2c)
+
+    count = 0
+
+    while True:
+        print(f"Selecting channel {count}")
+        switch.channel = count
+        count = (count + 1) % 8
+        time.sleep(1)
+
 Documentation
 =============
 API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/adg72x/en/latest/>`_.
