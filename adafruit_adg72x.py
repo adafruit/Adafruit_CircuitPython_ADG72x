@@ -29,7 +29,8 @@ Implementation Notes
 import adafruit_bus_device.i2c_device as i2cdevice
 
 try:
-    import typing  # pylint: disable=unused-import
+    import typing
+
     from busio import I2C
 except ImportError:
     pass
@@ -78,7 +79,7 @@ class ADG72x:
             with self.i2c_device as i2c:
                 i2c.write(bytes([bits]))
         except Exception as error:
-            raise IOError("Failed to select channel on the ADG72x") from error
+            raise OSError("Failed to select channel on the ADG72x") from error
         self.channels = [channel]
 
     @property
@@ -103,7 +104,7 @@ class ADG72x:
             with self.i2c_device as i2c:
                 i2c.write(bytes([bits]))
         except Exception as error:
-            raise IOError("Failed to select channels on the ADG72x") from error
+            raise OSError("Failed to select channels on the ADG72x") from error
         self._channels = channels  # Update the cached list of active channels
 
     def channels_off(self):
@@ -114,7 +115,5 @@ class ADG72x:
             with self.i2c_device as i2c:
                 i2c.write(bytes([0]))  # Write a byte with all bits cleared
         except Exception as error:
-            raise IOError("Failed to turn off channels on the ADG72x") from error
-        self._channels = (
-            []
-        )  # Update the cached list to reflect that no channels are active
+            raise OSError("Failed to turn off channels on the ADG72x") from error
+        self._channels = []  # Update the cached list to reflect that no channels are active
